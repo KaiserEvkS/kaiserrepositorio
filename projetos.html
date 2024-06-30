@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregamento de Projetos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .loading {
+            display: block;
+            margin: 20px auto;
+        }
+
+        .projects {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .project {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            width: calc(33.33% - 20px);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Carregando projetos...</h1>
+        <img class="loading" src="https://cdn.pixabay.com/animation/2023/08/11/21/18/21-18-05-265_512.gif" alt="Loading animation">
+        <div class="projects" id="conteudo"></div>
+        <p class="error-message" id="errorMessage"></p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            var caixaProjetos = document.getElementById("conteudo");
+            var loading = document.querySelector('.loading');
+            var errorMessage = document.getElementById('errorMessage');
+
+            setTimeout(() => {
+                fetch('caminho-para-seu-arquivo-json.json')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erro ao carregar JSON');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        loading.style.display = "none"; // Esconde o loading depois que o conteúdo estiver pronto
+                        document.querySelector('h1').style.display = 'none'; // Esconde a mensagem "Carregando projetos..."
+
+                        if (data.length === 0) {
+                            caixaProjetos.innerHTML = "<p>Não há projetos disponíveis.</p>";
+                        } else {
+                            data.forEach(element => {
+                                var projectDiv = document.createElement("div");
+                                projectDiv.classList.add("project");
+                                projectDiv.textContent = element.nome; // Exemplo: acessando propriedade 'nome' do JSON
+                                caixaProjetos.appendChild(projectDiv);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar JSON:', error);
+                        loading.style.display = "none"; // Esconde o loading em caso de erro
+                        document.querySelector('h1').style.display = 'none'; // Esconde a mensagem "Carregando projetos..."
+                        errorMessage.textContent = "Ocorreu um erro ao carregar os projetos. Por favor, tente novamente mais tarde.";
+                    });
+            }, 2000); // Aguarda 2 segundos (2000 milissegundos) antes de iniciar o carregamento
+        });
+    </script>
+</body>
+</html>
