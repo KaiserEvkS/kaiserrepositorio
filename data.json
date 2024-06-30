@@ -1,0 +1,34 @@
+{
+    "biografia": {
+        "foto": "C:\\xampp\\htdocs\\img\\fotolindae.jpeg.jpg",
+        "descricao": "Olá! Meu nome é Erik Vagner Kaiser da Silva. Sou apaixonado por tecnologia e tenho foco em desenvolver habilidades na área de T.I. Estou sempre em busca de aprender e crescer profissionalmente."
+    },
+    "competencias": [
+        "HTML / CSS / JavaScript",
+        "Criatividade",
+        "Trabalho em equipe",
+        "Hardware/Software",
+        "Música"
+    ],
+    "cursos": [
+        {
+            "instituicao": "SENAC PARANÁ",
+            "titulo": "Tecnologia da Informação",
+            "descricao": "Desenvolvi atividades com foco em HARDWARE, incluindo montagem e entendimento completo de recursos, defeitos e soluções computacionais."
+        },
+        {
+            "instituicao": "SENAC PARANÁ",
+            "titulo": "Lógica de Programação",
+            "descricao": "Amplo aprendizado nas linguagens de marcação HTML e CSS, assim como programação em JavaScript, TypeScript e Node.js."
+        },
+        {
+            "instituicao": "SICOOB",
+            "titulo": "Técnicas de Vendas",
+            "descricao": "Desenvolvi habilidades essenciais para o sucesso na interação com clientes. Aprendi a compreender suas necessidades, aprimorar a comunicação e resolver problemas de forma eficaz."
+        }
+    ],
+    "contato": {
+        "formAction": "https://formspree.io/f/xleqyykq",
+        "link": "https://linktr.ee/erikvagnerkaiserdasilva"
+    }
+}
