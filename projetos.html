@@ -48,6 +48,13 @@
             width: calc(33.33% - 20px);
         }
 
+        .project img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
         .error-message {
             color: #dc3545;
             font-size: 18px;
@@ -70,7 +77,7 @@
             var errorMessage = document.getElementById('errorMessage');
 
             setTimeout(() => {
-                fetch('caminho-para-seu-arquivo-json.json')
+                fetch('http://localhost/data.json')
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Erro ao carregar JSON');
@@ -81,13 +88,20 @@
                         loading.style.display = "none"; // Esconde o loading depois que o conteúdo estiver pronto
                         document.querySelector('h1').style.display = 'none'; // Esconde a mensagem "Carregando projetos..."
 
-                        if (data.length === 0) {
+                        if (data.projetos && data.projetos.length === 0) {
                             caixaProjetos.innerHTML = "<p>Não há projetos disponíveis.</p>";
-                        } else {
-                            data.forEach(element => {
+                        } else if (data.projetos) {
+                            data.projetos.forEach(element => {
                                 var projectDiv = document.createElement("div");
                                 projectDiv.classList.add("project");
-                                projectDiv.textContent = element.nome; // Exemplo: acessando propriedade 'nome' do JSON
+                                projectDiv.innerHTML = `<h2>${element.nome}</h2><p>${element.descricao}</p>`;
+                                
+                                if (element.nome === "Projeto Teste") {
+                                    var avatarImg = document.createElement("img");
+                                    avatarImg.src = "https://cdn.icon-icons.com/icons2/2898/PNG/512/test_exam_icon_182954.png"; // URL do avatar
+                                    projectDiv.insertBefore(avatarImg, projectDiv.firstChild);
+                                }
+
                                 caixaProjetos.appendChild(projectDiv);
                             });
                         }

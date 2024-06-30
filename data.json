@@ -30,5 +30,11 @@
     "contato": {
         "formAction": "https://formspree.io/f/xleqyykq",
         "link": "https://linktr.ee/erikvagnerkaiserdasilva"
-    }
+    },
+    "projetos": [
+        {
+            "nome": "Projeto Teste",
+            "descricao": "projeto de teste"
+        }
+    ]
 }
