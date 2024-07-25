@@ -32,17 +32,6 @@
                 <div class="competencia">Música</div>
             </div>
         </section>
-
-        <!-- Seção de cursos -->
-        <section>
-            <h2>Cursos</h2>
-            <ul>
-                <li><strong>SENAC PARANÁ - TECNOLOGIA DA INFORMAÇÃO:</strong> Desenvolvi atividades com foco em HARDWARE, incluindo montagem e entendimento completo de recursos, defeitos e soluções computacionais.</li>
-                <li><strong>SENAC PARANÁ - LÓGICA DE PROGRAMAÇÃO:</strong> Amplo aprendizado nas linguagens de marcação HTML e CSS, assim como programação em JavaScript, TypeScript e Node.js.</li>
-                <li><strong>SICOOB - TÉCNICAS DE VENDAS:</strong> Desenvolvi habilidades essenciais para o sucesso na interação com clientes. Aprendi a compreender suas necessidades, aprimorar a comunicação e resolver problemas de forma eficaz.</li>
-            </ul>
-        </section>
-
         <!-- Seção de contato -->
         <section>
             <h2>Contato</h2>
