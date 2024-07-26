@@ -1,5 +1,5 @@
 <?php
-// Mensagem.php
+// MensagemRoot.php
 
 class Mensagem {
     // Variáveis privadas
@@ -39,4 +39,3 @@ class Mensagem {
         $this->mensagem = $mensagem;
     }
 }
-?>
