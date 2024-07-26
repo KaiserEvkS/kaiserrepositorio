@@ -1,6 +1,6 @@
 <?php
 // Carregar o autoloader do Composer
-require 'vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 use App\Model\Mensagem;
 use App\Exception\CustomException;

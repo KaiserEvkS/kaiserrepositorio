@@ -3,8 +3,7 @@
     "description": "literalmente um portifolio",
     "type": "project",
     "require": {
-        "php": ">=7.4",
-        "outra-dependencia/necessaria": "^1.0"                 
+        "php": ">=7.4"
     },
     "autoload": {
         "psr-4": {
@@ -15,6 +14,5 @@
         "post-autoload-dump": [
             "@php -r \"file_exists('vendor/autoload.php') || exit('Autoload file not found');\""
         ]
-    },
-    "license": "proprietary"
+    }
 }
