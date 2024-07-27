@@ -1,5 +1,6 @@
 <?php
-require 'MensagemRoot.php'; // Inclua o arquivo da classe Mensagem
+require 'Mensagem.php'; // Inclua o arquivo da classe Mensagem
+require 'vendor/autoload.php'; // Autoload do Composer
 
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

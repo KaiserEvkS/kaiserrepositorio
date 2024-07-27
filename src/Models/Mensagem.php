@@ -1,23 +1,28 @@
 <?php
+// src/Models/Mensagem.php
 
-namespace App\Model;
+namespace App\Models;
 
 class Mensagem {
+    // Variáveis privadas
     private $nome;
     private $email;
     private $mensagem;
 
+    // Construtor
     public function __construct($nome = '', $email = '', $mensagem = '') {
         $this->nome = $nome;
         $this->email = $email;
         $this->mensagem = $mensagem;
     }
 
+    // Getters e Setters
     public function getNome() {
         return $this->nome;
     }
 
     public function setNome($nome) {
+        // Adicione validação se necessário
         $this->nome = $nome;
     }
 
@@ -26,6 +31,7 @@ class Mensagem {
     }
 
     public function setEmail($email) {
+        // Adicione validação de e-mail se necessário
         $this->email = $email;
     }
 
@@ -34,6 +40,7 @@ class Mensagem {
     }
 
     public function setMensagem($mensagem) {
+        // Adicione validação se necessário
         $this->mensagem = $mensagem;
     }
 }

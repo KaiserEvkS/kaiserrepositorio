@@ -11,6 +11,9 @@ body {
     color: #00ff00;
     line-height: 1.6;
     margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Estilo para cabeçalho */
@@ -61,8 +64,8 @@ header .social-media img {
 
 /* Estilo para rodapé */
 footer {
-    background-color: #000;
-    color: #00ff00;
+    background-color: #51ff00;
+    color: #fff;
     text-align: center;
     padding: 10px 0;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
@@ -232,23 +235,6 @@ body::after {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.623); /* Sobreposição semitransparente */
     z-index: -1; /* Coloca a sobreposição atrás do conteúdo */
-}
-
-/* Estilo para rodapé */
-footer {
-    background-color: #51ff00;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-    width: 100%;
-    margin-top: auto;
-}
-
-footer p {
-    margin: 0;
-    font-size: 14px;
 }
 
 /* Media Queries para Responsividade */
