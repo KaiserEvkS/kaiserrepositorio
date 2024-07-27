@@ -15,7 +15,7 @@ $footer = new Footer();
     <title>Sucesso</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="success.css">
-    <?php require 'header.php'; ?>
+    <?php require_once 'header.php'; ?>
 </head>
 <body>
     <?php $header->render(); ?>
@@ -24,6 +24,6 @@ $footer = new Footer();
         <p>Sua mensagem foi enviada com sucesso.</p>
         <button onclick="window.location.href='index.php'">Voltar à Página Inicial</button>
     </div>
-    <?php require 'footer.php'; ?>
+    <?php require_once 'footer.php'; ?>
 </body>
 </html>
