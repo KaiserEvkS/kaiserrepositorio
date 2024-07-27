@@ -1,41 +1,65 @@
 <?php
-// Carregar o autoloader do Composer
-require_once 'vendor/autoload.php';
-
-use App\Model\Mensagem;
-use App\Exception\CustomException;
+require 'MensagemRoot.php'; // Inclua o arquivo da classe Mensagem
 
 try {
-    // Verificar se a solicitação é do tipo POST
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        // Filtrar e sanitizar as entradas
-        $nome = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-        $mensagem = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Validação básica dos dados
+        $nome = $_POST['name'];
+        $email = $_POST['email'];
+        $mensagem = $_POST['message'];
 
-        // Validar o email
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new CustomException('Email inválido.');
+        if (empty($nome) || empty($email) || empty($mensagem)) {
+            throw new Exception('Todos os campos são obrigatórios.');
         }
 
-        // Criar um novo objeto Mensagem
+        // Criação do objeto Mensagem
         $mensagemObj = new Mensagem($nome, $email, $mensagem);
 
-        // Processar a mensagem (por exemplo: enviar um email, salvar no banco de dados, etc.)
-        // Código para processar a mensagem aqui...
+        // Configurações do Formspree
+        $formspreeUrl = 'https://formspree.io/f/xleqyykq'; // ID do Formulário Formspree
+        $data = [
+            'name' => $mensagemObj->getNome(),
+            'email' => $mensagemObj->getEmail(),
+            'message' => $mensagemObj->getMensagem()
+        ];
 
-        // Redirecionar para a página de sucesso
-        header('Location: success.php');
-        exit();
+        // Envio dos dados para o Formspree
+        $response = sendToFormspree($formspreeUrl, $data);
+
+        if ($response['status'] === 200) {
+            // Redireciona para a página de sucesso
+            header('Location: success.php');
+            exit;
+        } else {
+            throw new Exception('Falha no envio do formulário. Código de resposta: ' . $response['status']);
+        }
     } else {
-        throw new CustomException('Método de solicitação inválido.');
+        throw new Exception('Método de solicitação inválido.');
     }
-} catch (CustomException $e) {
-    // Redirecionar para a página de erro com a mensagem da exceção personalizada
-    header('Location: error.php?msg=' . urlencode($e->getMessage()));
-    exit();
-} catch (\Exception $e) {
-    // Redirecionar para a página de erro com uma mensagem genérica
-    header('Location: error.php?msg=' . urlencode('Ocorreu um erro inesperado.'));
-    exit();
+} catch (Exception $e) {
+    // Captura a exceção e redireciona para a página de erro com a mensagem
+    $erroMsg = $e->getMessage();
+    header('Location: error.php?msg=' . urlencode($erroMsg));
+    exit;
 }
+
+// Função para enviar dados para o Formspree
+function sendToFormspree($url, $data) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Accept: application/json'
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    return [
+        'status' => $httpCode,
+        'response' => $response
+    ];
+}
+?>

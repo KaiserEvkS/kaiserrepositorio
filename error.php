@@ -8,9 +8,9 @@
 </head>
 <body>
     <div class="container">
-        <h1>Ocorreu um erro!</h1>
-        <p>Desculpe, algo deu errado. Por favor, tente novamente mais tarde.</p>
-        <a href="index.php" class="button">Voltar para a Página Inicial</a>
+        <h1>Erro!</h1>
+        <p>Ocorreu um erro ao enviar seu formulário. Por favor, tente novamente.</p>
+        <button onclick="window.location.href='index.php'">Voltar para a Página Inicial</button>
     </div>
 </body>
 </html>

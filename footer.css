@@ -1,0 +1,23 @@
+/* Reset CSS básico */
+p {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Rodapé */
+footer {
+    background-color: #000; /* Preto, para combinar com o restante do site */
+    color: #00ff00; /* Verde limão, para manter a consistência com o site */
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 100%;
+    bottom: 0;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}

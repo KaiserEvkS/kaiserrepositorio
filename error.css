@@ -1,63 +1,67 @@
 /* Reset CSS básico */
-body, h1, p {
+body, h1, p, button {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #000;
+    color: #fff;
+    line-height: 1.6;
     text-align: center;
 }
 
+/* Estilo para a mensagem de erro */
 .container {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
     max-width: 600px;
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    background-color: #1e1e1e; /* Fundo preto suave */
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+    animation: fadeIn 1s ease-in-out;
 }
 
 h1 {
-    font-size: 48px;
-    color: #e74c3c; /* Cor para mensagens de erro */
+    font-size: 32px;
+    color: #ff0000; /* Vermelho vibrante */
     margin-bottom: 20px;
 }
 
 p {
     font-size: 18px;
     margin-bottom: 20px;
+    color: #ccc; /* Cinza claro para contraste */
 }
 
-a {
-    color: #3498db; /* Cor do link */
-    text-decoration: none;
-    font-weight: bold;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #3498db; /* Cor do botão */
+button {
+    padding: 15px 25px;
+    background-color: #ff0000;
+    color: #000;
     border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
+    border-radius: 8px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
 }
 
-.button:hover {
-    background-color: #2980b9; /* Cor do botão ao passar o mouse */
+button:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

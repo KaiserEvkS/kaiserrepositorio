@@ -3,26 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mensagem Enviada com Sucesso</title>
+    <title>Sucesso</title>
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="success.css">
+    <?php include 'header.php'; ?>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Mensagem Enviada</h1>
-        </header>
-        
-        <main>
-            <div class="message">
-                <h2>Obrigado pelo seu contato!</h2>
-                <p>Sua mensagem foi enviada com sucesso. Responderemos o mais breve possível.</p>
-                <a href="index.php" class="button">Voltar para a Página Inicial</a>
-            </div>
-        </main>
-        
-        <footer>
-            <p>&copy; 2024 Erik Vagner Kaiser da Silva. Todos os direitos reservados.</p>
-        </footer>
+        <h1>Sucesso!</h1>
+        <p>Sua mensagem foi enviada com sucesso.</p>
+        <button onclick="window.location.href='index.php'">Voltar à Página Inicial</button>
     </div>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

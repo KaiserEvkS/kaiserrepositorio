@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quem é Erik Kaiser?</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="header.css">
 </head>
 <body>
     <!-- Cabeçalho -->
-    <header>
-        <h1>Erik Vagner Kaiser da Silva</h1>
-    </header>
-
+    <div id="header-container"></div>
+    
     <!-- Conteúdo principal -->
     <div class="container">
         <!-- Seção de biografia -->
         <section>
             <h2>Biografia</h2>
-            <img id="foto" src="https://i.imgur.com/bHoNqcG.jpeg" alt="Foto de Erik Vagner Kaiser da Silva">
+            <img id="foto" src="https://img.freepik.com/free-vector/hacker-operating-laptop-cartoon-icon-illustration-technology-icon-concept-isolated-flat-cartoon-style_138676-2387.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1721865600&semt=ais_user" alt="Foto de Erik Vagner Kaiser da Silva">
             <p>Olá! Meu nome é Erik Vagner Kaiser da Silva. Sou apaixonado por tecnologia e tenho foco em desenvolver habilidades na área de (T.I). Estou sempre em busca de aprender e crescer profissionalmente.</p>
         </section>
 
@@ -32,6 +32,7 @@
                 <div class="competencia">Música</div>
             </div>
         </section>
+        
         <!-- Seção de contato -->
         <section>
             <h2>Contato</h2>
@@ -54,12 +55,24 @@
     </div>
 
     <!-- Rodapé -->
-    <footer>
-        <p>&copy; 2024 Erik Vagner Kaiser da Silva. Todos os direitos reservados.</p>
-    </footer>
+    <div id="footer-container"></div>
 
     <!-- Script JavaScript -->
     <script>
+        // Função para carregar HTML
+        function loadHTML(file, elementId) {
+            fetch(file)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById(elementId).innerHTML = data;
+                })
+                .catch(error => console.error('Erro ao carregar o arquivo:', error));
+        }
+
+        // Carregar o cabeçalho e o rodapé
+        loadHTML('header.php', 'header-container');
+        loadHTML('footer.php', 'footer-container');
+
         // Adicionando interatividade à foto
         const foto = document.getElementById('foto');
         foto.addEventListener('mouseenter', () => {
