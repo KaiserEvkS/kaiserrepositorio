@@ -14,9 +14,9 @@
         <div class="header-content">
             <h1>Erik Vagner Kaiser da Silva</h1>
             <div class="social-links">
-                <a href="https://www.instagram.com/erikk_kaiser" target="_blank" title="Instagram">
+            <a href="https://www.instagram.com/erikk_kaiser" target="_blank" rel="noopener noreferrer" title="Instagram">@erikk_kaiser</a>
                     <i class="instagram-icon"></i>
-                </a>
+            </a>
                 <p>Bem-vindo ao meu site pessoal!</p>
             </div>
         </div>
