@@ -1,11 +1,5 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
-
-use App\Views\Header;
-use App\Views\Footer;
-
-$header = new Header();
-$footer = new Footer();
+require_once 'vendor/autoload.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -18,7 +12,6 @@ $footer = new Footer();
     <?php require_once 'header.php'; ?>
 </head>
 <body>
-    <?php $header->render(); ?>
     <div class="container">
         <h1>Sucesso!</h1>
         <p>Sua mensagem foi enviada com sucesso.</p>

@@ -1,6 +1,8 @@
 <?php
-require 'Mensagem.php'; // Inclua o arquivo da classe Mensagem
-require 'vendor/autoload.php'; // Autoload do Composer
+
+require 'vendor/autoload.php'; // Inclua o autoload do Composer
+
+use App\Models\Mensagem; // Importe o namespace correto
 
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -49,7 +51,7 @@ function sendToFormspree($url, $data) {
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Accept: application/json'
     ]);

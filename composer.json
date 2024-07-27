@@ -1,14 +1,19 @@
 {
-    "name": "portifolio/erikkaiser",
-    "description": "literalmente um portifolio",
+    "name": "erikkaiser/portifolio",
+    "description": "meu portifolio",
     "type": "project",
-    "require": {
-        "php": ">=7.4",
-        "vlucas/phpdotenv": "^5.6"
-    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Erik Kaiser",
+            "email": "erikvagnerkaiserdasilva@gmail.com"
+        }
+    ],
+    "minimum-stability": "beta",
+    "require": {},
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\Models\\": "src/Models/"
         }
     },
     "scripts": {
