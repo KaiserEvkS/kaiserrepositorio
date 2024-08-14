@@ -9,7 +9,7 @@ require_once 'vendor/autoload.php';
     <title>Sucesso</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="success.css">
-    <?php require_once 'header.php'; ?>
+    <?php require_once 'Header.phtml'; ?>
 </head>
 <body>
     <div class="container">
@@ -17,6 +17,6 @@ require_once 'vendor/autoload.php';
         <p>Sua mensagem foi enviada com sucesso.</p>
         <button onclick="window.location.href='index.php'">Voltar à Página Inicial</button>
     </div>
-    <?php require_once 'footer.php'; ?>
+    <?php require_once 'Footer.phtml'; ?>
 </body>
 </html>

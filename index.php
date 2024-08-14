@@ -1,3 +1,55 @@
+<?php
+require 'vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Inicializa a variável para evitar o aviso
+$mensagemEnviada = false;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nome = $_POST['name'];
+    $email = $_POST['email'];
+    $mensagem = $_POST['message'];
+
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host = $_ENV['SMTP_HOST'];
+        $mail->SMTPAuth = true;
+        $mail->Username = $_ENV['SMTP_USER'];
+        $mail->Password = $_ENV['SMTP_PASS'];
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = $_ENV['SMTP_PORT'];
+
+        $mail->setFrom($email, $nome);
+        $mail->addAddress('vagnere330@gmail.com'); 
+        $mail->Subject = 'Novo contato do site';
+        $mail->Body    = "Nome: $nome\nEmail: $email\n\nMensagem:\n$mensagem";
+
+        $mail->send();
+        
+        // Defina como true se a mensagem foi enviada com sucesso
+        $mensagemEnviada = true;
+
+        // Redirecionar para a página de sucesso
+        header('Location: success.php');
+        exit();
+    } catch (Exception $e) {
+        // Defina como false se ocorreu um erro
+        $mensagemEnviada = false;
+
+        // Redirecionar para a página de erro
+        header('Location: error.php');
+        exit();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -36,18 +88,22 @@
         <!-- Seção de contato -->
         <section>
             <h2>Contato</h2>
-            <form id="contactForm" action="process_form.php" method="post">
-                <label for="name">Nome:</label>
-                <input type="text" id="name" name="name" placeholder="Digite seu nome" required>
-                
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Digite seu email" required>
-                
-                <label for="message">Mensagem:</label>
-                <textarea id="message" name="message" rows="4" placeholder="Digite sua mensagem" required></textarea>
-                
-                <button type="submit">Enviar</button>
-            </form>
+            <?php if ($mensagemEnviada): ?>
+                <p class="sucesso">Sua mensagem foi enviada com sucesso!</p>
+            <?php else: ?>
+                <form id="contactForm" action="" method="post">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" placeholder="Digite seu nome" required>
+                    
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Digite seu email" required>
+                    
+                    <label for="message">Mensagem:</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Digite sua mensagem" required></textarea>
+                    
+                    <button type="submit">Enviar</button>
+                </form>
+            <?php endif; ?>
             <div class="contato">
                 <a href="https://linktr.ee/erikvagnerkaiserdasilva">Clique aqui e inicie sua conversa</a>
             </div>
@@ -70,8 +126,8 @@
         }
 
         // Carregar o cabeçalho e o rodapé
-        loadHTML('header.php', 'header-container');
-        loadHTML('footer.php', 'footer-container');
+        loadHTML('Header.phtml', 'header-container');
+        loadHTML('Footer.phtml', 'footer-container');
 
         // Adicionando interatividade à foto
         const foto = document.getElementById('foto');
