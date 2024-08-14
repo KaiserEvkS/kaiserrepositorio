@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Port = $_ENV['SMTP_PORT'];
 
         $mail->setFrom($email, $nome);
-        $mail->addAddress('vagnere330@gmail.com'); 
+        $mail->addAddress('vagnere330@gmail.com');
         $mail->Subject = 'Novo contato do site';
         $mail->Body    = "Nome: $nome\nEmail: $email\n\nMensagem:\n$mensagem";
 
