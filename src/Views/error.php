@@ -10,7 +10,7 @@
     <div class="container">
         <h1>Erro!</h1>
         <p>Ocorreu um erro ao enviar seu formulário. Por favor, tente novamente.</p>
-        <button onclick="window.location.href='index.php'">Voltar para a Página Inicial</button>
+        <button onclick="window.location.href='/index.php'">Voltar para a Página Inicial</button>
     </div>
 </body>
 </html>

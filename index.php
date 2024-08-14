@@ -37,14 +37,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mensagemEnviada = true;
 
         // Redirecionar para a página de sucesso
-        header('Location: success.php');
+        header('Location: src/Views/success.php');
         exit();
     } catch (Exception $e) {
         // Defina como false se ocorreu um erro
         $mensagemEnviada = false;
 
         // Redirecionar para a página de erro
-        header('Location: error.php');
+        header('Location: src/Views/error.php');
         exit();
     }
 }
