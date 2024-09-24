@@ -1,5 +1,6 @@
 <?php
 require_once 'vendor/autoload.php';
+require_once 'config/routes.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -11,6 +12,13 @@ $dotenv->load();
 $mensagemEnviada = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!isset($_POST['name']) || !isset($_POST['email']) || !isset($_POST['message']) ||
+        empty($_POST['name']) || empty($_POST['email']) || empty($_POST['message'])) {
+        http_response_code(400);
+        header('Location: src/Views/error.php?error=Campos obrigatórios não preenchidos');
+        exit();
+    }
+
     $nome = $_POST['name'];
     $email = $_POST['email'];
     $mensagem = $_POST['message'];
@@ -37,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mensagemEnviada = true;
 
         // Redirecionar para a página de sucesso
+        http_response_code(200);
         header('Location: src/Views/success.php');
         exit();
     } catch (Exception $e) {
@@ -44,7 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mensagemEnviada = false;
 
         // Redirecionar para a página de erro
-        header('Location: src/Views/error.php');
+        http_response_code(500);
+        header('Location: src/Views/error.php?error=' . urlencode($e->getMessage()));
         exit();
     }
 }

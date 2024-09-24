@@ -1,68 +1,73 @@
 <?php
 
-require 'vendor/autoload.php'; // Inclua o autoload do Composer
+require 'vendor/autoload.php';
 
-use App\Models\Mensagem; // Importe o namespace correto
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use Dotenv\Dotenv;
+use App\Models\Mensagem;
+
+// Carrega as variáveis de ambiente
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Inclui a conexão com o banco de dados
+require 'config/db.php';
 
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Validação básica dos dados
-        $nome = $_POST['name'];
-        $email = $_POST['email'];
-        $mensagem = $_POST['message'];
-
-        if (empty($nome) || empty($email) || empty($mensagem)) {
+        // Validação dos campos
+        if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['message'])) {
             throw new Exception('Todos os campos são obrigatórios.');
+        }
+
+        // Sanitização dos dados de entrada
+        $nome = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+        $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+        $mensagem = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
+
+        if (!$email) {
+            throw new Exception('E-mail inválido.');
         }
 
         // Criação do objeto Mensagem
         $mensagemObj = new Mensagem($nome, $email, $mensagem);
 
-        // Configurações do Formspree
-        $formspreeUrl = 'https://formspree.io/f/xleqyykq'; // ID do Formulário Formspree
-        $data = [
-            'name' => $mensagemObj->getNome(),
-            'email' => $mensagemObj->getEmail(),
-            'message' => $mensagemObj->getMensagem()
-        ];
+        // Salva a mensagem no banco de dados
+        $sql = "INSERT INTO mensagens (nome, email, mensagem) VALUES (?, ?, ?)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$nome, $email, $mensagem]);
 
-        // Envio dos dados para o Formspree
-        $response = sendToFormspree($formspreeUrl, $data);
+        // Configuração do PHPMailer
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host = $_ENV['MAIL_HOST'];
+        $mail->SMTPAuth = true;
+        $mail->Username = $_ENV['MAIL_USERNAME'];
+        $mail->Password = $_ENV['MAIL_PASSWORD'];
+        $mail->SMTPSecure = $_ENV['MAIL_ENCRYPTION'];
+        $mail->Port = $_ENV['MAIL_PORT'];
 
-        if ($response['status'] === 200) {
-            // Redireciona para a página de sucesso
+        $mail->setFrom($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
+        $mail->addAddress($mensagemObj->getEmail(), $mensagemObj->getNome());
+
+        $mail->isHTML(true);
+        $mail->Subject = 'Nova mensagem do formulário';
+        $mail->Body = nl2br("Nome: {$mensagemObj->getNome()}\nEmail: {$mensagemObj->getEmail()}\n\nMensagem:\n{$mensagemObj->getMensagem()}");
+
+        // Envio do e-mail
+        if ($mail->send()) {
             header('Location: success.php');
             exit;
         } else {
-            throw new Exception('Falha no envio do formulário. Código de resposta: ' . $response['status']);
+            throw new Exception('Falha no envio do e-mail.');
         }
     } else {
         throw new Exception('Método de solicitação inválido.');
     }
 } catch (Exception $e) {
-    // Captura a exceção e redireciona para a página de erro com a mensagem
+    // Redireciona para a página de erro com a mensagem de erro
     $erroMsg = $e->getMessage();
     header('Location: error.php?msg=' . urlencode($erroMsg));
     exit;
 }
-
-// Função para enviar dados para o Formspree
-function sendToFormspree($url, $data) {
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Accept: application/json'
-    ]);
-
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    return [
-        'status' => $httpCode,
-        'response' => $response
-    ];
-}
-?>
