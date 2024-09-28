@@ -16,7 +16,7 @@ $dotenv->load();
 require_once 'config/db.php';
 
 // Define a constante para redirecionamento de erro
-define('ERROR_REDIRECT', 'Location: error.php?msg=');
+define('ERROR_REDIRECT', 'error.php?msg=');
 
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -72,16 +72,16 @@ try {
 } catch (FormValidationException $e) {
     // Lida com exceções de validação
     $erroMsg = $e->getMessage();
-    header(ERROR_REDIRECT . urlencode($erroMsg));
+    header('Location: ' . ERROR_REDIRECT . urlencode($erroMsg));
     exit;
 } catch (PHPMailerException $e) {
     // Lida com exceções do PHPMailer
     $erroMsg = $e->getMessage();
-    header(ERROR_REDIRECT . urlencode($erroMsg));
+    header('Location: ' . ERROR_REDIRECT . urlencode($erroMsg));
     exit;
 } catch (Exception $e) {
     // Lida com exceções genéricas
     $erroMsg = $e->getMessage();
-    header(ERROR_REDIRECT . urlencode($erroMsg));
+    header('Location: ' . ERROR_REDIRECT . urlencode($erroMsg));
     exit;
 }
