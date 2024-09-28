@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
@@ -13,7 +13,10 @@ $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 // Inclui a conexão com o banco de dados
-require 'config/db.php';
+require_once 'config/db.php';
+
+// Define a constante para redirecionamento de erro
+define('ERROR_REDIRECT', 'Location: error.php?msg=');
 
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -69,16 +72,16 @@ try {
 } catch (FormValidationException $e) {
     // Lida com exceções de validação
     $erroMsg = $e->getMessage();
-    header('Location: error.php?msg=' . urlencode($erroMsg));
+    header(ERROR_REDIRECT . urlencode($erroMsg));
     exit;
 } catch (PHPMailerException $e) {
     // Lida com exceções do PHPMailer
     $erroMsg = $e->getMessage();
-    header('Location: error.php?msg=' . urlencode($erroMsg));
+    header(ERROR_REDIRECT . urlencode($erroMsg));
     exit;
 } catch (Exception $e) {
     // Lida com exceções genéricas
     $erroMsg = $e->getMessage();
-    header('Location: error.php?msg=' . urlencode($erroMsg));
+    header(ERROR_REDIRECT . urlencode($erroMsg));
     exit;
 }
