@@ -3,9 +3,10 @@
 require 'vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use Dotenv\Dotenv;
 use App\Models\Mensagem;
+use App\Exceptions\FormValidationException; // Exceção personalizada
 
 // Carrega as variáveis de ambiente
 $dotenv = Dotenv::createImmutable(__DIR__);
@@ -18,16 +19,16 @@ try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Validação dos campos
         if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['message'])) {
-            throw new Exception('Todos os campos são obrigatórios.');
+            throw new FormValidationException('Todos os campos são obrigatórios.');
         }
 
         // Sanitização dos dados de entrada
-        $nome = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+        $nome = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
         $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-        $mensagem = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
+        $mensagem = htmlspecialchars($_POST['message'], ENT_QUOTES, 'UTF-8');
 
         if (!$email) {
-            throw new Exception('E-mail inválido.');
+            throw new FormValidationException('E-mail inválido.');
         }
 
         // Criação do objeto Mensagem
@@ -60,13 +61,23 @@ try {
             header('Location: success.php');
             exit;
         } else {
-            throw new Exception('Falha no envio do e-mail.');
+            throw new PHPMailerException('Falha no envio do e-mail.');
         }
     } else {
-        throw new Exception('Método de solicitação inválido.');
+        throw new FormValidationException('Método de solicitação inválido.');
     }
+} catch (FormValidationException $e) {
+    // Lida com exceções de validação
+    $erroMsg = $e->getMessage();
+    header('Location: error.php?msg=' . urlencode($erroMsg));
+    exit;
+} catch (PHPMailerException $e) {
+    // Lida com exceções do PHPMailer
+    $erroMsg = $e->getMessage();
+    header('Location: error.php?msg=' . urlencode($erroMsg));
+    exit;
 } catch (Exception $e) {
-    // Redireciona para a página de erro com a mensagem de erro
+    // Lida com exceções genéricas
     $erroMsg = $e->getMessage();
     header('Location: error.php?msg=' . urlencode($erroMsg));
     exit;

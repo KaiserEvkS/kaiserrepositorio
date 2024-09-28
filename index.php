@@ -1,17 +1,21 @@
 <?php
+
+// Carregar o autoloader e as rotas
 require_once 'vendor/autoload.php';
-require_once 'config/routes.php';
+require_once 'config/routes.php';  // Rotas para controlar a navegação
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use App\Controllers\ContactController; // Ajuste para o MVC
+use Dotenv\Dotenv;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+// Carregar variáveis de ambiente
+$dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 // Inicializa a variável para evitar o aviso
 $mensagemEnviada = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validar os campos obrigatórios
     if (!isset($_POST['name']) || !isset($_POST['email']) || !isset($_POST['message']) ||
         empty($_POST['name']) || empty($_POST['email']) || empty($_POST['message'])) {
         http_response_code(400);
@@ -19,40 +23,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
+    // Capturar os dados do formulário
     $nome = $_POST['name'];
     $email = $_POST['email'];
     $mensagem = $_POST['message'];
 
-    $mail = new PHPMailer(true);
-
+    // Instanciar o controlador e enviar a mensagem
+    $controller = new ContactController();
     try {
-        $mail->isSMTP();
-        $mail->Host = $_ENV['SMTP_HOST'];
-        $mail->SMTPAuth = true;
-        $mail->Username = $_ENV['SMTP_USER'];
-        $mail->Password = $_ENV['SMTP_PASS'];
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = $_ENV['SMTP_PORT'];
-
-        $mail->setFrom($email, $nome);
-        $mail->addAddress('vagnere330@gmail.com');
-        $mail->Subject = 'Novo contato do site';
-        $mail->Body    = "Nome: $nome\nEmail: $email\n\nMensagem:\n$mensagem";
-
-        $mail->send();
+        $controller->sendMail($nome, $email, $mensagem);  // Usar o controlador para o envio de email
         
-        // Defina como true se a mensagem foi enviada com sucesso
-        $mensagemEnviada = true;
-
         // Redirecionar para a página de sucesso
+        $mensagemEnviada = true;
         http_response_code(200);
         header('Location: src/Views/success.php');
         exit();
     } catch (Exception $e) {
-        // Defina como false se ocorreu um erro
-        $mensagemEnviada = false;
-
         // Redirecionar para a página de erro
+        $mensagemEnviada = false;
         http_response_code(500);
         header('Location: src/Views/error.php?error=' . urlencode($e->getMessage()));
         exit();
